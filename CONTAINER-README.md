@@ -1,11 +1,11 @@
 # Using the FigureGen Containers
 
-Contact: Georgia Stuart, georgia.stuart@austin.utexas.edu  
+Contact: Georgia Stuart, georgia.stuart@austin.utexas.edu
 7 February 2021
 
 ## Input File Setup
 
-For both Singularity and Docker container use, the path option for `ghostscript` and `gmt` 
+For both Singularity and Docker container use, the path option for `ghostscript` and `gmt`
 **must be left blank**. See `autotest/docker-test/BathyFilledCPT.inp` for example.
 
 ## Singularity Containers
@@ -20,19 +20,19 @@ In addition, we maintain a [FigureGen folder](https://cloud.sylabs.io/library/_c
 
 ### Using pre-built Singularity containers from the library
 
-Running singularity containers assumes **your current working directory is where your ADCIRC datafiles are**. 
+Running singularity containers assumes **your current working directory is where your ADCIRC datafiles are**.
 By default, singularity mounts your current working directory and `$HOME` so we have direct file access.
 
-To download the image from the cloud library (e.g., to the root `FigureGen` folder of this repository, or to some other 
+To download the image from the cloud library (e.g., to the root `FigureGen` folder of this repository, or to some other
 convenient location for singularity images), run the command:
 
 ```bash
 singularity pull figuregen.sif library://georgiastuart/figuregen/figuregen
 ```
 
-This command will pull down the latest `figuregen` image located at the cloud library and save it locally 
+This command will pull down the latest `figuregen` image located at the cloud library and save it locally
 to `figuregen.sif`. Similarly, replace `figuregen` with `figuregen-serial` or `figuregen-tacc` to run the
-serial or TACC versions of `figuregen`, respectively. 
+serial or TACC versions of `figuregen`, respectively.
 
 -------------------------
 **NOTE**
@@ -61,7 +61,7 @@ singularity pull figuregen-serial.sif library://georgiastuart/figuregen/figurege
 singularity pull figuregen-tacc.sif library://georgiastuart/figuregen/figuregen-tacc
 ```
 
-To run the tests in this repository, `cd` to `autotest/TestFiles` and run the following 
+To run the tests in this repository, `cd` to `autotest/TestFiles` and run the following
 command (for example):
 
 ##### MPI Example
@@ -97,7 +97,7 @@ Replace `figuregen.def` with `figuregen-serial.def` or `figuregen-tacc.def` as a
 ## Docker Containers
 
 For use on MacOS and Windows, we also provide Docker containers. **All docker container instructions
-rely on your data files and input files being in the same directory** (e.g., the `autotest/docker-test` directory in this 
+rely on your data files and input files being in the same directory** (e.g., the `autotest/docker-test` directory in this
 repository).
 
 We maintain two Docker images for use on local machines (not HPC clusters. Use Singularity for HPC).
@@ -109,7 +109,7 @@ georgiastuart/figuregen-serial
 
 ### Install Docker
 
-Mac instructions: https://docs.docker.com/docker-for-mac/install/  
+Mac instructions: https://docs.docker.com/docker-for-mac/install/
 Windows instructions: https://docs.docker.com/docker-for-windows/install/
 
 ### Run FigureGen Containers
@@ -122,7 +122,7 @@ Running `FigureGen` in a Docker container requires four steps:
 
 #### Pull the Docker Image
 
-First, pull the Docker image with the following command: 
+First, pull the Docker image with the following command:
 
 ```
 docker pull georgiastuart/figuregen
@@ -132,8 +132,8 @@ Similarly, `georgiastuart/figuregen-serial`.
 
 #### Launch the Docker Container
 
-We need to launch the docker container while binding your desired data directory to `/data` 
-in the container. Use the following command (**assuming your current working directory is 
+We need to launch the docker container while binding your desired data directory to `/data`
+in the container. Use the following command (**assuming your current working directory is
 where your data and input files are**):
 
 ##### Mac/Linux
@@ -163,14 +163,19 @@ Next, we will run the `FigureGen` program and set the working directory to `/dat
 ```
 docker exec -it -w /data figuregen mpirun -np <num processes> figuregen -I <input file name>
 ```
+To run FigureGen in serial, the executable is named `figuregen` although the container is named `figuregen-serial`:
+```
+docker exec -it -w /data figuregen-serial figuregen -I <input file name>
+```
 
 #### Shut Down the Container
 
-Finally, after your plots are satisfactory, we shut down the Docker container. **A new container must 
+Finally, after your plots are satisfactory, we shut down and remove the Docker container. **A new container must
 be launched each time you want to plot in a new directory**.
 
 ```
 docker stop figuregen
+docker container rm figuregen
 ```
 
 ## Tests Completed:
