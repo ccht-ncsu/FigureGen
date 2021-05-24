@@ -171,7 +171,7 @@ docker exec -it -w /data figuregen-serial figuregen -I <input file name>
 #### Shut Down the Container
 
 Finally, after your plots are satisfactory, we shut down and remove the Docker container. **A new container must
-be launched each time you want to plot in a new directory**.
+be launched with 'docker run' each time you want to plot in a new directory**.
 
 ```
 docker stop figuregen
