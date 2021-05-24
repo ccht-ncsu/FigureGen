@@ -5,8 +5,8 @@ Contact: Georgia Stuart, georgia.stuart@austin.utexas.edu
 
 ## Input File Setup
 
-For both Singularity and Docker container use, the path option for `ghostscript` and `gmt`
-**must be left blank**. See `autotest/docker-test/BathyFilledCPT.inp` for example.
+For both Singularity and Docker container use, the path option for `ghostscript` and `gmt` in the FigureGen input
+parameters file (ending in `.inp`) **must be left blank**. See `autotest/docker-test/BathyFilledCPT.inp` for example.
 
 ## Singularity Containers
 
