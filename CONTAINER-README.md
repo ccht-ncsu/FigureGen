@@ -178,7 +178,7 @@ docker container rm figuregen
 ```
 #### Launch, Multiple Executions
 
-A second way to use the FigureGen container is to specify a "data root" directory on the host machine when running it (e.g., `/home/myname/alldata`). The idea is that this directory contains multiple subdirectories with ADCIRC data and associated FigureGen control parameter files (`*.inp`). Then FigureGen can be executed more than once, with data in different subdirectories, without shutting down, removing, and relaunching the container in betweeen executions in different directories. This second method is described in this section.
+A second way to use the FigureGen container is to specify a "data root" directory on the host machine when running it (e.g., `/home/myname/alldata`). The idea is that this directory contains multiple subdirectories with ADCIRC data and associated FigureGen control parameter files (`*.inp`). Then FigureGen can be executed more than once, with data in different subdirectories, without shutting down, removing, and relaunching the container in betweeen executions in different subdirectories. This second method is described in this section.
 
 To start, use the following command (**assuming the /home/myname/alldata (or c:\myname\alldata) directory contains subdirectories where your data and input files are**):
 
