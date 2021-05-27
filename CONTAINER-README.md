@@ -32,6 +32,23 @@ singularity pull figuregen.sif library://georgiastuart/figuregen/figuregen
 
 This command will pull down the latest `figuregen` image located at the cloud library and save it locally to `figuregen.sif`. Similarly, replace `figuregen` with `figuregen-serial` or `figuregen-tacc` to run the serial or TACC versions of `figuregen`, respectively.
 
+```bash
+singularity pull figuregen-serial.sif library://georgiastuart/figuregen/figuregen-serial
+singularity pull figuregen-tacc.sif library://georgiastuart/figuregen/figuregen-tacc
+```
+
+### Building Singularity Images
+
+To build a Singularity image yourself, from the root `FigureGen` directory of this repository, use this command *on a machine where you have sudo privileges*:
+
+```
+sudo singularity build figuregen.sif container-files/singularity-def-files/figuregen.def
+```
+
+Replace `figuregen.def` with `figuregen-serial.def` or `figuregen-tacc.def` as appropriate.
+
+### Running Singularity Containers
+
 -------------------------
 **NOTE**
 
@@ -49,31 +66,27 @@ To use an `idev` node on `Stampede2`, run
 idev -A <account number> -N 1 -n <processes (at least 2)>
 ```
 
-**At least two processes must be specified to run the TACC-compatible singularity container.** It *cannot*
-run serially.
+**At least two processes must be specified to run the TACC-compatible singularity container.** It *cannot* run serially.
 
 ------------------------
-
-```bash
-singularity pull figuregen-serial.sif library://georgiastuart/figuregen/figuregen-serial
-singularity pull figuregen-tacc.sif library://georgiastuart/figuregen/figuregen-tacc
-```
 
 To run the tests in this repository, `cd` to `autotest/TestFiles` and run the following
 command (for example):
 
-##### MPI Example
+#### MPI Example
 ```bash
 singularity exec <path to figuregen.sif> mpirun -np <num processes> figuregen -I ../Tests/BathyFilledCPT.inp
 ```
 
-##### Serial Example
+#### Serial Example
 
 ```bash
 singularity exec <path to figuregen-serial.sif> figuregen -I ../Tests/BathyFilledCPT.inp
 ```
 
-##### TACC/HPC Example (e.g. on Stampede2. DO NOT RUN ON LOGIN NODE.)
+##### TACC/HPC Example
+
+For example, on Stampede2. **DO NOT RUN ON LOGIN NODE.**
 
 ```bash
 ibrun singularity exec <path to figuregen-tacc.sif> figuregen -I ../Tests/BathyFilledCPT.inp
@@ -81,15 +94,6 @@ ibrun singularity exec <path to figuregen-tacc.sif> figuregen -I ../Tests/BathyF
 
 **Note:** The TACC container gives some harmless errors that can be safely ignored.
 
-### Building Singularity Images
-
-To build a Singularity image yourself, from the root `FigureGen` directory of this repository, use this command *on a machine where you have sudo privileges*:
-
-```
-sudo singularity build figuregen.sif container-files/singularity-def-files/figuregen.def
-```
-
-Replace `figuregen.def` with `figuregen-serial.def` or `figuregen-tacc.def` as appropriate.
 
 ## Docker Containers
 
