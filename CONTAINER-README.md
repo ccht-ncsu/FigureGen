@@ -18,7 +18,7 @@ We provide three Singularity definition files:
 
 In addition, we maintain a [FigureGen folder](https://cloud.sylabs.io/library/_collection/602041171e573cd09be5c019) at the [Singularity Container Library](https://cloud.sylabs.io/library).
 
-### Using pre-built Singularity containers from the library
+### Pre-Built Singularity Images
 
 Running singularity containers assumes **your current working directory is where your ADCIRC datafiles are**.
 By default, singularity mounts your current working directory and `$HOME` so we have direct file access.
@@ -30,9 +30,7 @@ convenient location for singularity images), run the command:
 singularity pull figuregen.sif library://georgiastuart/figuregen/figuregen
 ```
 
-This command will pull down the latest `figuregen` image located at the cloud library and save it locally
-to `figuregen.sif`. Similarly, replace `figuregen` with `figuregen-serial` or `figuregen-tacc` to run the
-serial or TACC versions of `figuregen`, respectively.
+This command will pull down the latest `figuregen` image located at the cloud library and save it locally to `figuregen.sif`. Similarly, replace `figuregen` with `figuregen-serial` or `figuregen-tacc` to run the serial or TACC versions of `figuregen`, respectively.
 
 -------------------------
 **NOTE**
