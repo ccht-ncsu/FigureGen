@@ -84,7 +84,7 @@ singularity exec <path to figuregen.sif> mpirun -np <num processes> figuregen -I
 singularity exec <path to figuregen-serial.sif> figuregen -I ../Tests/BathyFilledCPT.inp
 ```
 
-##### TACC/HPC Example
+#### TACC/HPC Example
 
 For example, on Stampede2. **DO NOT RUN ON LOGIN NODE.**
 
