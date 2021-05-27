@@ -83,10 +83,9 @@ ibrun singularity exec <path to figuregen-tacc.sif> figuregen -I ../Tests/BathyF
 
 **Note:** The TACC container gives some harmless errors that can be safely ignored.
 
-### Building Singularity Containers
+### Building Singularity Images
 
-To build a Singularity container yourself, from the root `FigureGen` directory of this repository,
-use this command *on a machine where you have sudo privileges*:
+To build a Singularity image yourself, from the root `FigureGen` directory of this repository, use this command *on a machine where you have sudo privileges*:
 
 ```
 sudo singularity build figuregen.sif container-files/singularity-def-files/figuregen.def
@@ -96,11 +95,7 @@ Replace `figuregen.def` with `figuregen-serial.def` or `figuregen-tacc.def` as a
 
 ## Docker Containers
 
-For use on MacOS and Windows, we also provide Docker containers. **All docker container instructions
-rely on your data files and input files being in the same directory** (e.g., the `autotest/docker-test` directory in this
-repository).
-
-We maintain two Docker images for use on local machines (not HPC clusters. Use Singularity for HPC).
+For use on MacOS and Windows, we also provide Docker images. We maintain two Docker images for use on local machines (not HPC clusters. Use Singularity for HPC).
 
 ```
 georgiastuart/figuregen
@@ -110,29 +105,32 @@ georgiastuart/figuregen-serial
 ### Install Docker
 
 Mac instructions: https://docs.docker.com/docker-for-mac/install/
+
 Windows instructions: https://docs.docker.com/docker-for-windows/install/
 
 ### Run FigureGen Containers
 
 Running `FigureGen` in a Docker container requires four steps:
-1. Pull the desired Docker container (listed above)
-1. Launch the container and bind the directory with your data and input files to `/data`
-2. Execute the `figuregen` executable and set working directory to `/data`
-4. Shut the docker container down
+1. Pull the desired Docker image (listed above)
+2. Launch the container and bind the host directory of interest to the `/data` directory in the container
+3. Execute `figuregen`, setting the working directory inside the container on the command line
+4. Stop the docker container and remove it
+
+Steps 2 and 3 can be set two different ways depending on whether FigureGen will be executed multiple times (more details in the description below). Steps 1 and 4 are the same for any launch and execution scenario.
 
 #### Pull the Docker Image
 
 First, pull the Docker image with the following command:
-
 ```
 docker pull georgiastuart/figuregen
 ```
-
 Similarly, `georgiastuart/figuregen-serial`.
+
+This step normally only needs to be done once, the first time FigureGen is used on that platform. It would also have to be repeated if the image is updated on DockerHub.
 
 #### Launch, Execute, Stop, Remove
 
-There are two ways to use the FigureGen container. The first way, described in this section, is to launch the docker container in the same directory that holds the FigureGen controls parameter file (`*.inp`) and all the ADCIRC data files that it will need. In this case, you will be binding your desired data directory to `/data` in the container. Once execution is complete in this scenario, you will need to stop and remove the container before repeating this sequence in a different directory.
+There are two ways to use the FigureGen container. The first way, described in this section, is to launch the docker container in the same directory that holds the FigureGen controls parameter file (`*.inp`) and all the ADCIRC data files that it will need. In this case, you will be binding your desired data directory on the host machine to the `/data` directory in the container. Once execution is complete in this scenario, you will need to stop and remove the container before repeating this sequence in a different directory.
 
 To start, use the following command (**assuming your current working directory is where your data and input files are**):
 
@@ -178,7 +176,7 @@ docker container rm figuregen
 ```
 #### Launch, Multiple Executions
 
-A second way to use the FigureGen container is to specify a "data root" directory when launching it (e.g., `/home/myname/alldata`). The idea is that this directory contains multiple subdirectories with ADCIRC data and associated FigureGen control parameter files (`*.inp`). Then FigureGen can be executed more than once, with data in different subdirectories, without shutting down, removing, and relaunching the container in betweeen executions. This second method is described in this section.
+A second way to use the FigureGen container is to specify a "data root" directory on the host machine when running it (e.g., `/home/myname/alldata`). The idea is that this directory contains multiple subdirectories with ADCIRC data and associated FigureGen control parameter files (`*.inp`). Then FigureGen can be executed more than once, with data in different subdirectories, without shutting down, removing, and relaunching the container in betweeen executions in different directories. This second method is described in this section.
 
 To start, use the following command (**assuming the /home/myname/alldata (or c:\myname\alldata) directory contains subdirectories where your data and input files are**):
 
@@ -198,7 +196,7 @@ Similarly for `georgiastuart/figuregen-serial`.
 
 ##### Execute FigureGen
 
-Next, we will execute the `FigureGen` program multiple times and specify the subdirectory containing the data each time. If we assume that there are three and that they are named according to the pattern `run[n]`, for example `/home/myname/alldata/run1` (or `c:\myname\alldata\run1`):
+Next, we will execute the `FigureGen` program multiple times and specify the subdirectory containing the data each time. If we assume that there are three subdirectories and that they are named according to the pattern `run[n]`, for example `/home/myname/alldata/run1` (or `c:\myname\alldata\run1`):
 
 ```
 docker exec -it --workdir=/data/run1 figuregen mpirun -np <num processes> figuregen -I <input file name>
@@ -214,7 +212,7 @@ docker exec -it --workdir=/data/run3 figuregen-serial figuregen -I <input file n
 
 ##### Stop and Remove the Container
 
-Finally, after your plots are satisfactory, and you don't have any more plots to make, you can shut down and remove the Docker container. **A new container must be launched with 'docker run' each time you want to plot in a new "data root" directory**.
+Finally, after your plots are satisfactory, and you don't have any more plots to make, you can shut down and remove the Docker container. **A new container must be launched with 'docker run' each time you want to plot in a new 'data root' directory**.
 
 ```
 docker stop figuregen
