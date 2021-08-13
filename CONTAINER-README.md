@@ -66,19 +66,19 @@ command (for example):
 
 ##### MPI Example
 ```bash
-singularity exec <path to figuregen.sif> mpirun -np <num processes> figuregen -I ../Tests/BathyFilledCPT.inp
+singularity exec <path to figuregen.sif> mpirun -np <num processes> figuregen -I ../docker-test/BathyFilledCPT.inp
 ```
 
 ##### Serial Example
 
 ```bash
-singularity exec <path to figuregen-serial.sif> figuregen -I ../Tests/BathyFilledCPT.inp
+singularity exec <path to figuregen-serial.sif> figuregen -I ../docker-test/BathyFilledCPT.inp
 ```
 
 ##### TACC/HPC Example (e.g. on Stampede2. DO NOT RUN ON LOGIN NODE.)
 
 ```bash
-ibrun singularity exec <path to figuregen-tacc.sif> figuregen -I ../Tests/BathyFilledCPT.inp
+ibrun singularity exec <path to figuregen-tacc.sif> figuregen -I ../docker-test/BathyFilledCPT.inp
 ```
 
 **Note:** The TACC container gives some harmless errors that can be safely ignored.
